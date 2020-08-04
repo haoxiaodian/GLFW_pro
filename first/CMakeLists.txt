@@ -8,7 +8,7 @@ include_directories(${GLFW_INCLUDE_DIRS})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(SRC_FILES
-	${CMAKE_CURRENT_SOURCE_DIR}/glad.c
+	${GLFW_INCLUDE_DIRS}/gladsrc/glad.c
 	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
