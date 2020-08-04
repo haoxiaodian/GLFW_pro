@@ -1,1 +1,3 @@
 # GLFW_pro
+# VS2015+WIN32
+# OPENGL-3.3.2
