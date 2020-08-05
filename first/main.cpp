@@ -3,6 +3,7 @@
 #include <iostream>
 
 void frambuffer_size_callback(GLFWwindow* pWindow,int nWidth,int nHeight);
+void processInput(GLFWwindow* pWindow);
 
 int main()
 {
@@ -35,6 +36,12 @@ int main()
 	//渲染循环
 	while (!glfwWindowShouldClose(pWindow))//检查glfw是否要求被退出
 	{
+		processInput(pWindow);
+
+		//渲染指令
+		glClearColor(0.2f,0.3f,0.3f,1.0f);//设置清除颜色状态信息
+		glClear(GL_COLOR_BUFFER_BIT);//使用清除颜色
+
 		/*交换颜色缓冲，它存着GLFW窗口的每个像素颜色值的缓存，在这
 		一迭代中被用来绘制，并且将作为输出显示在屏幕上*/
 		glfwSwapBuffers(pWindow);
@@ -48,4 +55,12 @@ int main()
 void frambuffer_size_callback(GLFWwindow* pWindow, int nWidth, int nHeight)
 {
 	glViewport(0, 0, 800, 600);
+}
+
+void processInput(GLFWwindow* pWindow)
+{
+	if (glfwGetKey(pWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(pWindow, true);
+	}
 }
