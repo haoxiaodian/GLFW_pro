@@ -8,4 +8,4 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/IncludeFiles)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(first)
-
+add_subdirectory(exersize1)

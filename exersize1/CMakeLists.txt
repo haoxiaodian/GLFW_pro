@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(first VERSION 3.3.2)
+project(exersize1 VERSION 3.3.2)
 
 find_package(GLFW)
 include_directories(${GLFW_INCLUDE_DIRS})
