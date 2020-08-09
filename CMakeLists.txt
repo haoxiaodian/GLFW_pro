@@ -9,3 +9,4 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(first)
 add_subdirectory(exersize1)
+add_subdirectory(exersize2)
