@@ -139,6 +139,9 @@ int main()
 		glfwSwapBuffers(pWindow);//将缓存绘制到窗口上
 		glfwPollEvents();//检测是否有事件发生
 	}
+	glDeleteVertexArrays(1,&VAO);
+	glDeleteBuffers(1,&VBO);
+	glDeleteProgram(unShaderProgram);
 
 	glfwTerminate();
 	return 0;
