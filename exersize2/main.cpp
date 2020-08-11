@@ -21,9 +21,10 @@ const char * pFragmentShader1 = "#version 330 core\n"
 
 const char * pFragmentShader2 = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 ourColor;\n"
 "void main()\n"
 "{\n"
-"	FragColor = vec4(1.0f, 0.0f, 0.0f,1.0f);\n"
+"	FragColor = ourColor;\n"
 "}\n";
 
 int main()
@@ -172,7 +173,14 @@ int main()
 		glUseProgram(unShaderProgram1);
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
 		glUseProgram(unShaderProgram2);
+		//使用Uniform更新颜色
+		float fTimeValue = glfwGetTime();
+		float fGreenValue = sin(fTimeValue) / 2.0f + 0.5;
+		int nVertexColorLocation = glGetUniformLocation(unShaderProgram2, "ourColor");
+		glUniform4f(nVertexColorLocation, 0.0f, fGreenValue, 0.0f, 0.0f);
+
 		glBindVertexArray(VAO[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
