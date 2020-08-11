@@ -12,11 +12,18 @@ const char * pVertexShader = "#version 330 core\n"
 "	gl_Position = vec4(apos.x,apos.y,apos.z,1.0f);\n"
 "}\n";
 
-const char * pFragmentShader = "#version 330 core\n"
+const char * pFragmentShader1 = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
 "	FragColor = vec4(1.0f, 1.0f, 0.0f,1.0f);\n"
+"}\n";
+
+const char * pFragmentShader2 = "#version 330 core\n"
+"out vec4 FragColor;\n"
+"void main()\n"
+"{\n"
+"	FragColor = vec4(1.0f, 0.0f, 0.0f,1.0f);\n"
 "}\n";
 
 int main()
@@ -61,38 +68,69 @@ int main()
 	}
 
 	//创建并编译片段着色器
-	unsigned int unFragementShader = 0;
-	unFragementShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(unFragementShader,1,&pFragmentShader,NULL);
-	glCompileShader(unFragementShader);
+	unsigned int unFragementShader1 = 0;
+	unFragementShader1 = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(unFragementShader1,1,&pFragmentShader1,NULL);
+	glCompileShader(unFragementShader1);
 
 	int nSucess1 = 0;
 	char cInfoLog1[512] = { 0 };
-	glGetShaderiv(unFragementShader,GL_COMPILE_STATUS,&nSucess1);
+	glGetShaderiv(unFragementShader1,GL_COMPILE_STATUS,&nSucess1);
 	if (!nSucess1)
 	{
-		glGetShaderInfoLog(unFragementShader, 512, NULL, cInfoLog1);
+		glGetShaderInfoLog(unFragementShader1, 512, NULL, cInfoLog1);
 		std::cout << "ERROR::SHADER::FRAGMENT_COMPILE_FAILE\n" << cInfoLog1<< std::endl;
 	}
 
+	//创建并编译片段着色器
+	unsigned int unFragmentShader2 = 0;
+	unFragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(unFragmentShader2, 1, &pFragmentShader2, NULL);
+	glCompileShader(unFragmentShader2);
+
+	int nSuccess3 = 0;
+	char cInfoLog3[512] = { 0 };
+	glGetShaderiv(unFragmentShader2, GL_COMPILE_STATUS, &nSuccess3);
+	if (!nSuccess3)
+	{
+		glGetShaderInfoLog(unFragmentShader2, 512, NULL, cInfoLog3);
+		std::cout << "ERROR::SHADER::FRAGMENT2_COMPILE_FAILE\n" << cInfoLog3 << std::endl;
+	}
+
 	//创建并链接着色程序
-	unsigned int unShaderProgram = 0;
-	unShaderProgram = glCreateProgram();
-	glAttachShader(unShaderProgram,unVertexShader);
-	glAttachShader(unShaderProgram, unFragementShader);
-	glLinkProgram(unShaderProgram);
+	unsigned int unShaderProgram1 = 0;
+	unShaderProgram1 = glCreateProgram();
+	glAttachShader(unShaderProgram1,unVertexShader);
+	glAttachShader(unShaderProgram1, unFragementShader1);
+	glLinkProgram(unShaderProgram1);
 
 	int nSuccess2 = 0;
 	char cInfoLog2[512] = { 0 };
-	glGetProgramiv(unShaderProgram, GL_LINK_STATUS, &nSuccess2);
+	glGetProgramiv(unShaderProgram1, GL_LINK_STATUS, &nSuccess2);
 	if (!nSuccess2)
 	{
-		glGetProgramInfoLog(unShaderProgram, 512, NULL, cInfoLog2);
+		glGetProgramInfoLog(unShaderProgram1, 512, NULL, cInfoLog2);
 		std::cout << "ERROR::PROGRAM_LINK_FAILE\n" << cInfoLog2 << std::endl;
 	}
 
+	unsigned int unShaderProgram2 = 0;
+	unShaderProgram2 = glCreateProgram();
+	glAttachShader(unShaderProgram2, unVertexShader);
+	glAttachShader(unShaderProgram2, unFragmentShader2);
+	glLinkProgram(unShaderProgram2);
+
+	int nSuccess4 = 0;
+	char cInfoLog4[512] = { 0 };
+	glGetProgramiv(unShaderProgram2, GL_LINK_STATUS, &nSuccess4);
+	if (!nSuccess4)
+	{
+		glGetProgramInfoLog(unShaderProgram2, 512, NULL, cInfoLog4);
+		std::cout << "ERROR::PROGRAM_LINK_FAILE\n" << cInfoLog4 << std::endl;
+	}
+
 	glDeleteShader(unVertexShader);
-	glDeleteShader(unFragementShader);
+	glDeleteShader(unFragementShader1);
+	glDeleteShader(unFragmentShader2);
 
 	float vertices1[] = {
 		-0.5f,0.5f,0.0f,
@@ -131,9 +169,10 @@ int main()
 		glClearColor(0.2f,0.3f,0.3f,1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(unShaderProgram);
+		glUseProgram(unShaderProgram1);
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glUseProgram(unShaderProgram2);
 		glBindVertexArray(VAO[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -143,7 +182,8 @@ int main()
 	
 	glDeleteVertexArrays(2, VAO);
 	glDeleteBuffers(2, VBO);
-	glDeleteProgram(unShaderProgram);
+	glDeleteProgram(unShaderProgram1);
+	glDeleteProgram(unShaderProgram2);
 	glfwTerminate();
 	return 0;
 }
